@@ -1,0 +1,7 @@
+__pycache__
+*.pyc
+.env
+env
+test_db.db
+links.txt
+.vercel
