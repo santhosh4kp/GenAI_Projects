@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+openai
+groq
+fastapi-clerk-auth
