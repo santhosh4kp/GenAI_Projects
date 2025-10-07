@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi.responses import StreamingResponse
 from groq import Groq
-from dotenv import load_dotenv
+
 import os
 from fastapi_clerk_auth import ClerkConfig, ClerkHTTPBearer, HTTPAuthorizationCredentials
 
