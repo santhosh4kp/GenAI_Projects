@@ -1,12 +1,13 @@
 from fastapi import FastAPI, Depends
 from fastapi.responses import StreamingResponse
 from groq import Groq
-
+from dotenv import load_dotenv
 import os
 from fastapi_clerk_auth import ClerkConfig, ClerkHTTPBearer, HTTPAuthorizationCredentials
 
 
-client = Groq(api_key="")
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
 app = FastAPI()
 
 clerk_config = ClerkConfig(jwks_url=os.getenv("CLERK_JWKS_URL"))
