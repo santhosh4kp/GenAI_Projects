@@ -262,7 +262,7 @@ Add the Clerk authentication library to `requirements.txt`:
 ```
 fastapi
 uvicorn
-openai
+groq
 fastapi-clerk-auth
 ```
 
@@ -271,11 +271,15 @@ fastapi-clerk-auth
 Replace `api/index.py` with:
 
 ```python
+from fastapi import FastAPI, Depends
+from fastapi.responses import StreamingResponse
+from groq import Groq
+
 import os
-from fastapi import FastAPI, Depends  # type: ignore
-from fastapi.responses import StreamingResponse  # type: ignore
-from fastapi_clerk_auth import ClerkConfig, ClerkHTTPBearer, HTTPAuthorizationCredentials  # type: ignore
-from openai import OpenAI  # type: ignore
+from fastapi_clerk_auth import ClerkConfig, ClerkHTTPBearer, HTTPAuthorizationCredentials
+
+
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 app = FastAPI()
 
@@ -284,17 +288,15 @@ clerk_guard = ClerkHTTPBearer(clerk_config)
 
 @app.get("/api")
 def idea(creds: HTTPAuthorizationCredentials = Depends(clerk_guard)):
-    user_id = creds.decoded["sub"]  # User ID from JWT - available for future use
-    # We now know which user is making the request! 
-    # You could use user_id to:
-    # - Track usage per user
-    # - Store generated ideas in a database
-    # - Apply user-specific limits or customization
-    
-    client = OpenAI()
-    prompt = [{"role": "user", "content": "Reply with a new business idea for AI Agents, formatted with headings, sub-headings and bullet points"}]
-    stream = client.chat.completions.create(model="gpt-5-nano", messages=prompt, stream=True)
+    user_id = creds.decoded["sub"]
 
+    message = "Come up with a new business idea for AI Agents"
+
+    stream = client.chat.completions.create(
+        model="llama-3.1-8b-instant",
+        messages=[{"role": "user", "content": message}],
+        stream=True
+    )
     def event_stream():
         for chunk in stream:
             text = chunk.choices[0].delta.content
@@ -304,7 +306,6 @@ def idea(creds: HTTPAuthorizationCredentials = Depends(clerk_guard)):
                     yield f"data: {line}\n\n"
                     yield "data:  \n"
                 yield f"data: {lines[-1]}\n\n"
-
     return StreamingResponse(event_stream(), media_type="text/event-stream")
 ```
 
@@ -326,6 +327,12 @@ Paste your secret key and select all environments.
 vercel env add CLERK_JWKS_URL
 ```
 Paste your JWKS URL and select all environments.
+
+Add your groq API keys to Vercel:
+
+```bash
+vercel env add GROQ_API_KEY
+```
 
 ### Step 12: Test Locally
 
