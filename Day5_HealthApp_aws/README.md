@@ -581,6 +581,21 @@ Enter:
 3. Since you already have your AWS info in `.env`, let's use it!
 
 **First, make sure your environment variables are loaded** (from Part 5, Step 1).
+Load Environment Variables
+
+**Mac/Linux** (Terminal):
+```bash
+export $(cat .env | grep -v '^#' | xargs)
+```
+
+**Windows** (PowerShell):
+```powershell
+Get-Content .env | ForEach-Object {
+    if ($_ -match '^(.+?)=(.+)$') {
+        [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2])
+    }
+}
+```
 
 **Understanding the authentication**: The first command gets a temporary password from AWS and pipes it to Docker. You won't be prompted for a password - it's all automatic!
 
