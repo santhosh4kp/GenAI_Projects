@@ -88,7 +88,7 @@ uvicorn
 ```
 
 Save the file.
-
+pip install -r requirements.txt
 ## Step 5: Create Vercel Configuration
 
 Create a new file called `vercel.json` with the following content:
@@ -210,3 +210,4 @@ You've successfully deployed your first API to production! Your API is now:
 - Check Vercel's documentation: [https://vercel.com/docs](https://vercel.com/docs)
 
 - Ask in class or post in the course forum
+
