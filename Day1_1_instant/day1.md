@@ -20,7 +20,8 @@ This guide will walk you through deploying a simple FastAPI application to Verce
 ## Step 2: Install Cursor IDE
 
 > Note: You can use a different IDE if you prefer (VS Code, PyCharm, etc.), but these instructions assume you're using Cursor.
-
+**Windows:**
+install vs code
 **Windows:**
 1. Visit [https://cursor.com](https://cursor.com)
 2. Click "Download for Windows"
@@ -55,6 +56,11 @@ This guide will walk you through deploying a simple FastAPI application to Verce
 2. **Windows/Linux:** Click File → Open Folder → Create a new folder called "instant"
 3. **Mac:** Click File → Open → Create a new folder called "instant"
 4. Select and open the "instant" folder
+
+create enviornment
+python -m venv venv
+
+venv\Scripts\activate
 
 ## Step 3: Create Your FastAPI Application
 
@@ -202,4 +208,5 @@ You've successfully deployed your first API to production! Your API is now:
 
 ### Need Help?
 - Check Vercel's documentation: [https://vercel.com/docs](https://vercel.com/docs)
+
 - Ask in class or post in the course forum
